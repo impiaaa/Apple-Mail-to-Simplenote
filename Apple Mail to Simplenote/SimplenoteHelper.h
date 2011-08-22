@@ -9,14 +9,19 @@
 #import <Foundation/Foundation.h>
 
 
+NSString *simplenoteHelperAuthKey;
+NSString *simplenoteHelperEmail;
+
 @interface SimplenoteHelper : NSObject {
-@private
-    NSString *authKey;
-    NSString *email;
 }
 
 +(void)authorizeWithEmail:(NSString *)anEmail password:(NSString *)password;
 +(void)createNoteWithNoteObject:(NSDictionary *)noteObject;
-+(void)createNoteWithCreatedDate:(NSDate *)createdDate modifiedDate:(NSDate *)modifiedDate content:(NSString *)content;
++(void)createNoteWithCreatedDate:(NSDate *)createdDate
+                    modifiedDate:(NSDate *)modifiedDate
+                         content:(NSString *)content
+                          pinned:(BOOL)pinned
+                         deleted:(BOOL)deleted
+                            read:(BOOL)read;
 
 @end
