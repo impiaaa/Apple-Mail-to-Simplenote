@@ -1,0 +1,456 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B17C4D4C1402FE0700D76AD6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B17C4D4B1402FE0700D76AD6 /* Cocoa.framework */; };
+		B17C4D561402FE0700D76AD6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B17C4D541402FE0700D76AD6 /* InfoPlist.strings */; };
+		B17C4D591402FE0700D76AD6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4D581402FE0700D76AD6 /* main.m */; };
+		B17C4D5C1402FE0700D76AD6 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B17C4D5A1402FE0700D76AD6 /* Credits.rtf */; };
+		B17C4D5F1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4D5E1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m */; };
+		B17C4D621402FE0800D76AD6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B17C4D601402FE0800D76AD6 /* MainMenu.xib */; };
+		B17C4D691402FE0800D76AD6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B17C4D4B1402FE0700D76AD6 /* Cocoa.framework */; };
+		B17C4D711402FE0800D76AD6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B17C4D6F1402FE0800D76AD6 /* InfoPlist.strings */; };
+		B17C4D741402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.h in Resources */ = {isa = PBXBuildFile; fileRef = B17C4D731402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.h */; };
+		B17C4D761402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4D751402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B17C4D6A1402FE0800D76AD6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B17C4D3E1402FE0600D76AD6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B17C4D461402FE0700D76AD6;
+			remoteInfo = "Apple Mail to Simplenote";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B17C4D471402FE0700D76AD6 /* Apple Mail to Simplenote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Apple Mail to Simplenote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B17C4D4B1402FE0700D76AD6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		B17C4D4E1402FE0700D76AD6 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		B17C4D4F1402FE0700D76AD6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B17C4D501402FE0700D76AD6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B17C4D531402FE0700D76AD6 /* Apple Mail to Simplenote-Info.plist */ = {isa = PBXFileReference; path = "Apple Mail to Simplenote-Info.plist"; sourceTree = "<group>"; };
+		B17C4D551402FE0700D76AD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B17C4D571402FE0700D76AD6 /* Apple Mail to Simplenote-Prefix.pch */ = {isa = PBXFileReference; path = "Apple Mail to Simplenote-Prefix.pch"; sourceTree = "<group>"; };
+		B17C4D581402FE0700D76AD6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B17C4D5B1402FE0700D76AD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		B17C4D5D1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.h */ = {isa = PBXFileReference; path = Apple_Mail_to_SimplenoteAppDelegate.h; sourceTree = "<group>"; };
+		B17C4D5E1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Apple_Mail_to_SimplenoteAppDelegate.m; sourceTree = "<group>"; };
+		B17C4D611402FE0800D76AD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		B17C4D681402FE0800D76AD6 /* Apple Mail to SimplenoteTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Apple Mail to SimplenoteTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B17C4D6E1402FE0800D76AD6 /* Apple Mail to SimplenoteTests-Info.plist */ = {isa = PBXFileReference; path = "Apple Mail to SimplenoteTests-Info.plist"; sourceTree = "<group>"; };
+		B17C4D701402FE0800D76AD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B17C4D721402FE0800D76AD6 /* Apple Mail to SimplenoteTests-Prefix.pch */ = {isa = PBXFileReference; path = "Apple Mail to SimplenoteTests-Prefix.pch"; sourceTree = "<group>"; };
+		B17C4D731402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Apple_Mail_to_SimplenoteTests.h; sourceTree = "<group>"; };
+		B17C4D751402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Apple_Mail_to_SimplenoteTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B17C4D441402FE0700D76AD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B17C4D4C1402FE0700D76AD6 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B17C4D641402FE0800D76AD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B17C4D691402FE0800D76AD6 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B17C4D3C1402FE0600D76AD6 = {
+			isa = PBXGroup;
+			children = (
+				B17C4D511402FE0700D76AD6 /* Apple Mail to Simplenote */,
+				B17C4D6C1402FE0800D76AD6 /* Apple Mail to SimplenoteTests */,
+				B17C4D4A1402FE0700D76AD6 /* Frameworks */,
+				B17C4D481402FE0700D76AD6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B17C4D481402FE0700D76AD6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B17C4D471402FE0700D76AD6 /* Apple Mail to Simplenote.app */,
+				B17C4D681402FE0800D76AD6 /* Apple Mail to SimplenoteTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B17C4D4A1402FE0700D76AD6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B17C4D4B1402FE0700D76AD6 /* Cocoa.framework */,
+				B17C4D4D1402FE0700D76AD6 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B17C4D4D1402FE0700D76AD6 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B17C4D4E1402FE0700D76AD6 /* AppKit.framework */,
+				B17C4D4F1402FE0700D76AD6 /* CoreData.framework */,
+				B17C4D501402FE0700D76AD6 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		B17C4D511402FE0700D76AD6 /* Apple Mail to Simplenote */ = {
+			isa = PBXGroup;
+			children = (
+				B17C4D5D1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.h */,
+				B17C4D5E1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m */,
+				B17C4D601402FE0800D76AD6 /* MainMenu.xib */,
+				B17C4D521402FE0700D76AD6 /* Supporting Files */,
+			);
+			path = "Apple Mail to Simplenote";
+			sourceTree = "<group>";
+		};
+		B17C4D521402FE0700D76AD6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B17C4D531402FE0700D76AD6 /* Apple Mail to Simplenote-Info.plist */,
+				B17C4D541402FE0700D76AD6 /* InfoPlist.strings */,
+				B17C4D571402FE0700D76AD6 /* Apple Mail to Simplenote-Prefix.pch */,
+				B17C4D581402FE0700D76AD6 /* main.m */,
+				B17C4D5A1402FE0700D76AD6 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B17C4D6C1402FE0800D76AD6 /* Apple Mail to SimplenoteTests */ = {
+			isa = PBXGroup;
+			children = (
+				B17C4D731402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.h */,
+				B17C4D751402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.m */,
+				B17C4D6D1402FE0800D76AD6 /* Supporting Files */,
+			);
+			path = "Apple Mail to SimplenoteTests";
+			sourceTree = "<group>";
+		};
+		B17C4D6D1402FE0800D76AD6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B17C4D6E1402FE0800D76AD6 /* Apple Mail to SimplenoteTests-Info.plist */,
+				B17C4D6F1402FE0800D76AD6 /* InfoPlist.strings */,
+				B17C4D721402FE0800D76AD6 /* Apple Mail to SimplenoteTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B17C4D461402FE0700D76AD6 /* Apple Mail to Simplenote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B17C4D791402FE0800D76AD6 /* Build configuration list for PBXNativeTarget "Apple Mail to Simplenote" */;
+			buildPhases = (
+				B17C4D431402FE0700D76AD6 /* Sources */,
+				B17C4D441402FE0700D76AD6 /* Frameworks */,
+				B17C4D451402FE0700D76AD6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Apple Mail to Simplenote";
+			productName = "Apple Mail to Simplenote";
+			productReference = B17C4D471402FE0700D76AD6 /* Apple Mail to Simplenote.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B17C4D671402FE0800D76AD6 /* Apple Mail to SimplenoteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B17C4D7C1402FE0800D76AD6 /* Build configuration list for PBXNativeTarget "Apple Mail to SimplenoteTests" */;
+			buildPhases = (
+				B17C4D631402FE0800D76AD6 /* Sources */,
+				B17C4D641402FE0800D76AD6 /* Frameworks */,
+				B17C4D651402FE0800D76AD6 /* Resources */,
+				B17C4D661402FE0800D76AD6 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B17C4D6B1402FE0800D76AD6 /* PBXTargetDependency */,
+			);
+			name = "Apple Mail to SimplenoteTests";
+			productName = "Apple Mail to SimplenoteTests";
+			productReference = B17C4D681402FE0800D76AD6 /* Apple Mail to SimplenoteTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B17C4D3E1402FE0600D76AD6 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = B17C4D411402FE0600D76AD6 /* Build configuration list for PBXProject "Apple Mail to Simplenote" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B17C4D3C1402FE0600D76AD6;
+			productRefGroup = B17C4D481402FE0700D76AD6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B17C4D461402FE0700D76AD6 /* Apple Mail to Simplenote */,
+				B17C4D671402FE0800D76AD6 /* Apple Mail to SimplenoteTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B17C4D451402FE0700D76AD6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B17C4D561402FE0700D76AD6 /* InfoPlist.strings in Resources */,
+				B17C4D5C1402FE0700D76AD6 /* Credits.rtf in Resources */,
+				B17C4D621402FE0800D76AD6 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B17C4D651402FE0800D76AD6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B17C4D711402FE0800D76AD6 /* InfoPlist.strings in Resources */,
+				B17C4D741402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B17C4D661402FE0800D76AD6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B17C4D431402FE0700D76AD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B17C4D591402FE0700D76AD6 /* main.m in Sources */,
+				B17C4D5F1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B17C4D631402FE0800D76AD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B17C4D761402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B17C4D6B1402FE0800D76AD6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B17C4D461402FE0700D76AD6 /* Apple Mail to Simplenote */;
+			targetProxy = B17C4D6A1402FE0800D76AD6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B17C4D541402FE0700D76AD6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B17C4D551402FE0700D76AD6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B17C4D5A1402FE0700D76AD6 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B17C4D5B1402FE0700D76AD6 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		B17C4D601402FE0800D76AD6 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B17C4D611402FE0800D76AD6 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		B17C4D6F1402FE0800D76AD6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B17C4D701402FE0800D76AD6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B17C4D771402FE0800D76AD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		B17C4D781402FE0800D76AD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		B17C4D7A1402FE0800D76AD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apple Mail to Simplenote/Apple Mail to Simplenote-Prefix.pch";
+				INFOPLIST_FILE = "Apple Mail to Simplenote/Apple Mail to Simplenote-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B17C4D7B1402FE0800D76AD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apple Mail to Simplenote/Apple Mail to Simplenote-Prefix.pch";
+				INFOPLIST_FILE = "Apple Mail to Simplenote/Apple Mail to Simplenote-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		B17C4D7D1402FE0800D76AD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Apple Mail to Simplenote.app/Contents/MacOS/Apple Mail to Simplenote";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apple Mail to SimplenoteTests/Apple Mail to SimplenoteTests-Prefix.pch";
+				INFOPLIST_FILE = "Apple Mail to SimplenoteTests/Apple Mail to SimplenoteTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		B17C4D7E1402FE0800D76AD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Apple Mail to Simplenote.app/Contents/MacOS/Apple Mail to Simplenote";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apple Mail to SimplenoteTests/Apple Mail to SimplenoteTests-Prefix.pch";
+				INFOPLIST_FILE = "Apple Mail to SimplenoteTests/Apple Mail to SimplenoteTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B17C4D411402FE0600D76AD6 /* Build configuration list for PBXProject "Apple Mail to Simplenote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B17C4D771402FE0800D76AD6 /* Debug */,
+				B17C4D781402FE0800D76AD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B17C4D791402FE0800D76AD6 /* Build configuration list for PBXNativeTarget "Apple Mail to Simplenote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B17C4D7A1402FE0800D76AD6 /* Debug */,
+				B17C4D7B1402FE0800D76AD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B17C4D7C1402FE0800D76AD6 /* Build configuration list for PBXNativeTarget "Apple Mail to SimplenoteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B17C4D7D1402FE0800D76AD6 /* Debug */,
+				B17C4D7E1402FE0800D76AD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B17C4D3E1402FE0600D76AD6 /* Project object */;
+}
