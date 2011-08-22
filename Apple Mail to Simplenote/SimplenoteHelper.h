@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "JSONFetcher.h"
 
 NSString *simplenoteHelperAuthKey;
 NSString *simplenoteHelperEmail;
+JSONFetcher *simplenoteHelperFetcher;
 
 @interface SimplenoteHelper : NSObject {
 }
@@ -23,5 +24,6 @@ NSString *simplenoteHelperEmail;
                           pinned:(BOOL)pinned
                          deleted:(BOOL)deleted
                             read:(BOOL)read;
++(void)requestEndedWithFetcher:(HTTPFetcher *)fetcher;
 
 @end
