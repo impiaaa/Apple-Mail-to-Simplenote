@@ -3,7 +3,7 @@
 //  Apple Mail to Simplenote
 //
 //  Created by Spencer Alves on 8/22/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Spencer Alves. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
