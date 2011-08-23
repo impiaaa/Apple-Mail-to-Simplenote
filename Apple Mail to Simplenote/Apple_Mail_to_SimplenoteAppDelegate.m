@@ -47,6 +47,12 @@
     [self finishedUpload:sender];
 }
 
+typedef enum _ContentTransferEncoding {
+    ContentTransferEncoding7Bit,
+    ContentTransferEncodingQuotedPrintable,
+    ContentTransferEncodingBase64
+} ContentTransferEncoding;
+
 -(void)finishedUpload:(id)sender {
     // parse next message
     NSError *err = nil;
@@ -81,6 +87,7 @@
     NSDate *createdDate;
     NSDate *modifiedDate;
     NSStringEncoding encoding;
+    ContentTransferEncoding transferEncoding;
     // parse header (HTTP-like)
     for (NSString *line in [rawMessage componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
         splitRange = [line rangeOfString:@":"];
@@ -112,7 +119,15 @@
             key = [line substringToIndex:splitRange.location];
             value = [line substringFromIndex:splitRange.location+1];
             if ([key isEqualToString:@"Content-Transfer-Encoding"]) {
-                
+                if ([value rangeOfString:@"7bit" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                    transferEncoding = ContentTransferEncoding7Bit;
+                }
+                else if ([value rangeOfString:@"Quoted-Printable" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                    transferEncoding = ContentTransferEncodingQuotedPrintable;
+                }
+                else {
+                    [NSException exceptionWithName:@"Encoding not found" reason:[NSString stringWithFormat:@"Couldn't find transfer encoding %@", value] userInfo:nil];
+                }
             }
             else if ([key isEqualToString:@"X-Mail-Created-Date"]) {
                 createdDate = [NSDate dateWithString:value];
@@ -122,6 +137,34 @@
             }
         }
     }
+    
+    splitRange = [rawMessage rangeOfString:@"\n\n"];
+    NSMutableData *newMessageData = [NSMutableData dataWithCapacity:messageLength/2];
+    NSUInteger index;
+    for (index = splitRange.location+splitRange.length; index < [rawMessage length]; index++) {
+        unichar c = [rawMessage characterAtIndex:index];
+        switch (transferEncoding) {
+            case ContentTransferEncoding7Bit:
+                [newMessageData appendBytes:&c length:1];
+                break;
+            case ContentTransferEncodingQuotedPrintable:
+                if (c == '=') {
+                    NSString *hexStr = [rawMessage substringWithRange:NSMakeRange(index+1, 2)];
+                    unsigned char hex;
+                    sscanf([hexStr UTF8String], "%x", &hex);
+                    [newMessageData appendBytes:&hex length:1];
+                }
+                else {
+                    [newMessageData appendBytes:&c length:1];
+                }
+                break;
+                
+            default:
+                [newMessageData appendBytes:&c length:1];
+                break;
+        }
+    }
+    NSString *newMessage = [[NSString alloc] initWithData:newMessageData encoding:encoding];
 }
 
 @end
