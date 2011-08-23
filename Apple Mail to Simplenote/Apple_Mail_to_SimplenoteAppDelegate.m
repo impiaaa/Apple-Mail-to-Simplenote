@@ -10,11 +10,16 @@
 
 @implementation Apple_Mail_to_SimplenoteAppDelegate
 
-@synthesize window;
+@synthesize window, emailField, passwordField, importTrashedCheck, importButton, uploadIndicator, loadingTextField;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
+}
+
+- (NSSize)windowWillResize:(NSWindow *)theWindow toSize:(NSSize)proposedFrameSize {
+    proposedFrameSize.height = theWindow.frame.size.height;
+    return proposedFrameSize;
 }
 
 @end

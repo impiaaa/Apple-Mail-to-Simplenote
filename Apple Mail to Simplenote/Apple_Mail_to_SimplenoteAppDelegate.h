@@ -8,11 +8,23 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface Apple_Mail_to_SimplenoteAppDelegate : NSObject <NSApplicationDelegate> {
+@interface Apple_Mail_to_SimplenoteAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate> {
 @private
     NSWindow *window;
+    NSTextField *emailField;
+    NSTextField *passwordField;
+    NSButton *importTrashedCheck;
+    NSButton *importButton;
+    NSProgressIndicator *uploadIndicator;
+    NSTextField *loadingTextField;
 }
 
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSTextField *emailField;
+@property (assign) IBOutlet NSTextField *passwordField;
+@property (assign) IBOutlet NSButton *importTrashedCheck;
+@property (assign) IBOutlet NSButton *importButton;
+@property (assign) IBOutlet NSProgressIndicator *uploadIndicator;
+@property (assign) IBOutlet NSTextField *loadingTextField;
 
 @end

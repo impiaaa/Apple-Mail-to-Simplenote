@@ -22,6 +22,7 @@
 //
 
 #import "HTTPFetcher.h"
+#import "SBJson.h"
 
 @interface JSONFetcher : HTTPFetcher
 {

@@ -55,13 +55,10 @@
 {
 	//
 	// Parse the JSON
-	//
-	SBJSON *json = [SBJSON new]; 
-	result =
-		[json
-			newObjectWithUTF8String:(const char *)[data bytes]
-			allowScalar:NO
-			error:nil];
+	// 
+    NSString *resultString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	result = [resultString JSONValue];
+    [resultString release];
 
 #if TARGET_OS_IPHONE		
 	if (result == nil && showAlerts)
