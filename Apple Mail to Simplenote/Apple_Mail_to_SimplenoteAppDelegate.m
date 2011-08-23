@@ -142,29 +142,41 @@ typedef enum _ContentTransferEncoding {
     NSMutableData *newMessageData = [NSMutableData dataWithCapacity:messageLength/2];
     NSUInteger index;
     for (index = splitRange.location+splitRange.length; index < [rawMessage length]; index++) {
-        unichar c = [rawMessage characterAtIndex:index];
+        unichar uc = [rawMessage characterAtIndex:index];
         switch (transferEncoding) {
             case ContentTransferEncoding7Bit:
-                [newMessageData appendBytes:&c length:1];
+                [newMessageData appendBytes:&uc length:1];
                 break;
             case ContentTransferEncodingQuotedPrintable:
-                if (c == '=') {
+                if (uc == '=') {
                     NSString *hexStr = [rawMessage substringWithRange:NSMakeRange(index+1, 2)];
                     unsigned char hex;
                     sscanf([hexStr UTF8String], "%x", &hex);
                     [newMessageData appendBytes:&hex length:1];
                 }
                 else {
-                    [newMessageData appendBytes:&c length:1];
+                    [newMessageData appendBytes:&uc length:1];
                 }
                 break;
                 
             default:
-                [newMessageData appendBytes:&c length:1];
+                [newMessageData appendBytes:&uc length:1];
                 break;
         }
     }
     NSString *newMessage = [[NSString alloc] initWithData:newMessageData encoding:encoding];
+    
+    [stream setProperty:[NSNumber numberWithInteger:[[stream propertyForKey:NSStreamFileCurrentOffsetKey] integerValue]+messageLength] forKey:NSStreamFileCurrentOffsetKey];
+    [data resetBytesInRange:NSMakeRange(0, [data length])];
+    [data setLength:0];
+    while (TRUE) {
+        if ([stream read:(uint8_t *)&c maxLength:1] == 0) {
+            break;
+        }
+        [data appendBytes:&c length:1];
+    }
+    NSDictionary *metaDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:NSPropertyListXMLFormat_v1_0 error:&err];
+    catchErr(err);
 }
 
 @end
