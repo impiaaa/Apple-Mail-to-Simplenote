@@ -11,7 +11,7 @@
 
 NSString *simplenoteHelperAuthKey;
 NSString *simplenoteHelperEmail;
-JSONFetcher *simplenoteHelperFetcher;
+HTTPFetcher *simplenoteHelperFetcher;
 
 @interface SimplenoteHelper : NSObject {
 }
@@ -25,5 +25,6 @@ JSONFetcher *simplenoteHelperFetcher;
                          deleted:(BOOL)deleted
                             read:(BOOL)read;
 +(void)requestEndedWithFetcher:(HTTPFetcher *)fetcher;
++(void)authRequestEndedWithFetcher:(HTTPFetcher *)fetcher;
 
 @end
