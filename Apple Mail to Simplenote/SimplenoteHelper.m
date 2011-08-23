@@ -78,7 +78,8 @@ static char base64EncodingTable[64] = {
 +(void)authorizeWithEmail:(NSString *)anEmail password:(NSString *)password {
     simplenoteHelperEmail = [anEmail retain];
     NSString *urlBody = [NSString stringWithFormat:@"email=%@&password=%@", anEmail, password];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", @"https://simple-­‐note.appspot.com/api/login", nil]]];
+    NSURL *url = [NSURL URLWithString:@"https://simple-note.appspot.com/api/login"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[[self base64StringFromData:[urlBody dataUsingEncoding:NSASCIIStringEncoding] length:urlBody.length] dataUsingEncoding:NSASCIIStringEncoding]];
     [request setValue:@"Apple-Mail-To-Simplenote-0.1" forHTTPHeaderField:@"User‐Agent"];

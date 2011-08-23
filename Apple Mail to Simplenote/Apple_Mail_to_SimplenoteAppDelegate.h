@@ -18,7 +18,7 @@
     NSProgressIndicator *uploadIndicator;
     NSTextField *loadingTextField;
     NSInputStream *messageInputStream;
-    NSArray *messageFileList;
+    NSMutableArray *messageFileList;
     NSUInteger messageFileIndex;
 }
 
@@ -30,8 +30,9 @@
 @property (assign) IBOutlet NSProgressIndicator *uploadIndicator;
 @property (assign) IBOutlet NSTextField *loadingTextField;
 
--(IBAction)start;
+-(IBAction)start:(id)sender;
 -(void)finishedAuth:(id)sender;
--(void)finishedUpload:(id)sender;
+-(void)startNextUpload:(id)sender;
+-(void)finishedUploadingAllNotes;
 
 @end

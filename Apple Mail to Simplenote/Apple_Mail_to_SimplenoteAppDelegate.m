@@ -23,7 +23,7 @@
     return proposedFrameSize;
 }
 
--(IBAction)start {
+-(IBAction)start:(id)sender {
     [loadingTextField setStringValue:NSLocalizedString(@"Authorizing…", @"First step of the upload process")];
     simplenoteHelperCallbackObject = self;
     simplenoteHelperCallback = @selector(finishedAuth:);
@@ -40,11 +40,30 @@
 
 -(void)finishedAuth:(id)sender {
     NSError *err = nil;
-    messageFileList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"Mail/Mailboxes/Notes.mbox/Messages"] error:&err];
-    catchErr(err);
+    NSMutableArray *pathList = [NSMutableArray arrayWithCapacity:1];
+    NSArray *mailboxPathList;
+    for (NSString *libraryPath in NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)) {
+        mailboxPathList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[libraryPath stringByAppendingPathComponent:@"Mail"] error:&err];
+        catchErr(err);
+        for (NSString *mailboxPath in mailboxPathList) {
+            BOOL directory;
+            if ([[NSFileManager defaultManager] fileExistsAtPath:mailboxPath isDirectory:&directory] && directory) {
+                [pathList addObject:[mailboxPath stringByAppendingPathComponent:@"Notes.mbox/Messages"]];
+                [pathList addObject:[mailboxPath stringByAppendingPathComponent:@"Notes.imapbox/Messages"]];
+            }
+        }
+    }
+    for (NSString *notesBoxPath in pathList) {
+        BOOL directory;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:notesBoxPath isDirectory:&directory] && directory) {
+            [messageFileList addObjectsFromArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:notesBoxPath error:&err]];
+            catchErr(err);
+        }
+    }
     [uploadIndicator setMaxValue:[messageFileList count]];
     messageFileIndex = 0;
-    [self finishedUpload:sender];
+    simplenoteHelperCallback = @selector(startNextUpload:);
+    [self startNextUpload:sender];
 }
 
 typedef enum _ContentTransferEncoding {
@@ -53,8 +72,16 @@ typedef enum _ContentTransferEncoding {
     ContentTransferEncodingBase64
 } ContentTransferEncoding;
 
--(void)finishedUpload:(id)sender {
+-(void)startNextUpload:(id)sender {
+    [uploadIndicator setDoubleValue:messageFileIndex];
+    if (messageFileIndex >= [messageFileList count]) {
+        [self finishedUploadingAllNotes];
+        return;
+    }
+    [loadingTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Uploading %u of %u", @"Upload progress descriptor"), messageFileIndex+1, [messageFileList count], nil]];
     // parse next message
+    // Special thanks to this blog post:
+    // http://mike.laiosa.org/2009/03/01/emlx.html
     NSError *err = nil;
     NSString *path = [messageFileList objectAtIndex:messageFileIndex];
     NSInputStream *stream = [NSInputStream inputStreamWithFileAtPath:path];
@@ -175,8 +202,16 @@ typedef enum _ContentTransferEncoding {
         }
         [data appendBytes:&c length:1];
     }
-    NSDictionary *metaDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:NSPropertyListXMLFormat_v1_0 error:&err];
+    NSDictionary *metaDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:NULL error:&err];
     catchErr(err);
+    NSInteger flags = [[metaDict valueForKey:@"flags"] integerValue];
+    messageFileIndex++;
+    [SimplenoteHelper createNoteWithCreatedDate:createdDate modifiedDate:modifiedDate content:newMessage pinned:(flags & 0x10) deleted:((flags & 0x02) && [importTrashedCheck integerValue]) read:(flags & 0x01)];
+    [newMessage release];
+}
+
+-(void)finishedUploadingAllNotes {
+    
 }
 
 @end
