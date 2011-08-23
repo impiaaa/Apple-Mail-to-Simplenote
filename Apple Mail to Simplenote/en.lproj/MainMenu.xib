@@ -682,7 +682,7 @@
 				<string key="NSWindowTitle">Apple Mail to Simplenote</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
-				<string key="NSWindowContentMinSize">{259, 154}</string>
+				<string key="NSWindowContentMinSize">{191, 154}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -891,7 +891,7 @@
 					<reference key="NSNextKeyView" ref="1056116332"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMinSize">{259, 176}</string>
+				<string key="NSMinSize">{191, 176}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
 			</object>
 			<object class="NSCustomObject" id="976324537">
@@ -1287,6 +1287,14 @@
 						<reference key="destination" ref="976324537"/>
 					</object>
 					<int key="connectionID">562</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">start</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="712173225"/>
+					</object>
+					<int key="connectionID">563</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2315,7 +2323,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">562</int>
+			<int key="maxID">563</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2341,7 +2349,7 @@
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
-							<string>NSTextField</string>
+							<string>NSSecureTextField</string>
 							<string>NSProgressIndicator</string>
 							<string>NSWindow</string>
 						</object>
@@ -2378,7 +2386,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">passwordField</string>
-								<string key="candidateClassName">NSTextField</string>
+								<string key="candidateClassName">NSSecureTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">uploadIndicator</string>

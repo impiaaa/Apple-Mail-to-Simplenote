@@ -143,6 +143,7 @@ static char base64EncodingTable[64] = {
                           nil];
         [alert beginSheetModalForWindow:((Apple_Mail_to_SimplenoteAppDelegate *)[NSApplication sharedApplication]).window modalDelegate:nil didEndSelector:nil contextInfo:nil];
     }
+    [simplenoteHelperCallbackObject performSelector:simplenoteHelperCallback withObject:fetcher];
     [simplenoteHelperFetcher release];
 }
 
