@@ -17,7 +17,6 @@
     NSButton *importButton;
     NSProgressIndicator *uploadIndicator;
     NSTextField *loadingTextField;
-    NSInputStream *messageInputStream;
     NSMutableArray *messageFileList;
     NSUInteger messageFileIndex;
 }

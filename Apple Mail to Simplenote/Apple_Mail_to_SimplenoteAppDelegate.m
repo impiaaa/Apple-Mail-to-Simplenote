@@ -38,7 +38,7 @@
     return;\
 }
 
--(void)finishedAuth:(id)sender {
+-(void)getNoteListLegacy {
     NSError *err = nil;
     NSMutableArray *pathList = [NSMutableArray arrayWithCapacity:1];
     NSArray *mailboxPathList;
@@ -60,6 +60,34 @@
             catchErr(err);
         }
     }
+}
+
+-(void)getNoteList {
+    messageFileList = [[NSMutableArray alloc] initWithCapacity:1];
+    for (NSString *libraryPath in NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)) {
+        NSString *rootMailPath = [NSString pathWithComponents:[NSArray arrayWithObjects:libraryPath, @"Mail", @"V2", nil]];
+        NSDictionary *toc = [NSDictionary dictionaryWithContentsOfFile:[rootMailPath stringByAppendingPathComponent:@"MailData/BackupTOC.plist"]];
+        NSMutableArray *messageIds = [NSMutableArray arrayWithCapacity:1];
+        for (NSDictionary *mailbox in [toc valueForKey:@"mailboxes"]) {
+            if ([(NSNumber *)[mailbox valueForKey:@"type"] intValue] == 1002) {
+                NSDictionary *subMailbox = [(NSArray *)[mailbox valueForKey:@"mailboxes"] objectAtIndex:0];
+                assert([(NSNumber *)[subMailbox valueForKey:@"type"] intValue] == 106);
+                [messageIds addObjectsFromArray:[subMailbox valueForKey:@"messages"]];
+            }
+        }
+        for (NSString *key in [(NSDictionary *)[toc valueForKey:@"messages"] keyEnumerator]) {
+            NSDictionary *object = [(NSDictionary *)[toc valueForKey:@"messages"] valueForKey:key];
+            for (NSString *messageId in messageIds) {
+                if ([messageId hasPrefix:(NSString *)key]) {
+                    [messageFileList addObject:[rootMailPath stringByAppendingPathComponent:[object valueForKey:@"kMDItemPath"]]];
+                }
+            }
+        }
+    }
+}
+
+-(void)finishedAuth:(id)sender {
+    [self getNoteList];
     [uploadIndicator setMaxValue:[messageFileList count]];
     messageFileIndex = 0;
     simplenoteHelperCallback = @selector(startNextUpload:);
@@ -85,6 +113,7 @@ typedef enum _ContentTransferEncoding {
     NSError *err = nil;
     NSString *path = [messageFileList objectAtIndex:messageFileIndex];
     NSInputStream *stream = [NSInputStream inputStreamWithFileAtPath:path];
+    [stream open];
     if (stream == nil) {
         // this is just to find out *what* the error was
         [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&err];
@@ -95,7 +124,11 @@ typedef enum _ContentTransferEncoding {
     NSMutableData *data = [NSMutableData dataWithCapacity:1];
     char c;
     while (TRUE) {
-        [stream read:(uint8_t *)&c maxLength:1];
+        NSInteger result = [stream read:(uint8_t *)&c maxLength:1];
+        if (result < 1) {
+            NSLog(@"Stream status: %lu", [stream streamStatus]);
+            catchErr([stream streamError]);
+        }
         if (c == 0x0A) {
             break;
         }
@@ -108,6 +141,9 @@ typedef enum _ContentTransferEncoding {
     [stream read:buffer maxLength:messageLength];
     NSString *rawMessage = [[NSString alloc] initWithBytes:buffer length:messageLength encoding:NSASCIIStringEncoding];
     free(buffer);
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@" EEE, dd MMM yyyy HH:mm:ss ZZZ"];
     NSString *key;
     NSString *value;
     NSRange splitRange;
@@ -137,7 +173,8 @@ typedef enum _ContentTransferEncoding {
                         encoding = NSUTF8StringEncoding;
                     }
                     else {
-                        [NSException exceptionWithName:@"Encoding not found" reason:[NSString stringWithFormat:@"Couldn't find encoding %@", value] userInfo:nil];
+                        [[NSException exceptionWithName:@"Encoding not found" reason:[NSString stringWithFormat:@"Couldn't find encoding %@", value] userInfo:nil] raise];
+                        return;
                     }
                 }
             }
@@ -153,17 +190,18 @@ typedef enum _ContentTransferEncoding {
                     transferEncoding = ContentTransferEncodingQuotedPrintable;
                 }
                 else {
-                    [NSException exceptionWithName:@"Encoding not found" reason:[NSString stringWithFormat:@"Couldn't find transfer encoding %@", value] userInfo:nil];
+                    [[NSException exceptionWithName:@"Encoding not found" reason:[NSString stringWithFormat:@"Couldn't find transfer encoding %@", value] userInfo:nil] raise];
                 }
             }
             else if ([key isEqualToString:@"X-Mail-Created-Date"]) {
-                createdDate = [NSDate dateWithString:value];
+                createdDate = [dateFormatter dateFromString:value];
             }
             else if ([key isEqualToString:@"Date"]) {
-                modifiedDate = [NSDate dateWithString:value];
+                modifiedDate = [dateFormatter dateFromString:value];
             }
         }
     }
+    [dateFormatter release];
     
     splitRange = [rawMessage rangeOfString:@"\n\n"];
     NSMutableData *newMessageData = [NSMutableData dataWithCapacity:messageLength/2];
@@ -193,11 +231,11 @@ typedef enum _ContentTransferEncoding {
     }
     NSString *newMessage = [[NSString alloc] initWithData:newMessageData encoding:encoding];
     
-    [stream setProperty:[NSNumber numberWithInteger:[[stream propertyForKey:NSStreamFileCurrentOffsetKey] integerValue]+messageLength] forKey:NSStreamFileCurrentOffsetKey];
+    //[stream setProperty:[NSNumber numberWithInteger:[[stream propertyForKey:NSStreamFileCurrentOffsetKey] integerValue]+messageLength] forKey:NSStreamFileCurrentOffsetKey];
     [data resetBytesInRange:NSMakeRange(0, [data length])];
     [data setLength:0];
     while (TRUE) {
-        if ([stream read:(uint8_t *)&c maxLength:1] == 0) {
+        if ([stream read:(uint8_t *)&c maxLength:1] <= 0) {
             break;
         }
         [data appendBytes:&c length:1];
@@ -212,6 +250,10 @@ typedef enum _ContentTransferEncoding {
 
 -(void)finishedUploadingAllNotes {
     
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    [[NSApplication sharedApplication] terminate:self];
 }
 
 @end

@@ -76,13 +76,18 @@ static char base64EncodingTable[64] = {
 }
 
 +(void)authorizeWithEmail:(NSString *)anEmail password:(NSString *)password {
+    if (simplenoteHelperEmail != nil) {
+        [simplenoteHelperEmail release];
+    }
     simplenoteHelperEmail = [anEmail retain];
     NSString *urlBody = [NSString stringWithFormat:@"email=%@&password=%@", anEmail, password];
     NSURL *url = [NSURL URLWithString:@"https://simple-note.appspot.com/api/login"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    NSData *httpBody = [[self base64StringFromData:[urlBody dataUsingEncoding:NSASCIIStringEncoding] length:[urlBody length]] dataUsingEncoding:NSASCIIStringEncoding];
     [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:[[self base64StringFromData:[urlBody dataUsingEncoding:NSASCIIStringEncoding] length:urlBody.length] dataUsingEncoding:NSASCIIStringEncoding]];
-    [request setValue:@"Apple-Mail-To-Simplenote-0.1" forHTTPHeaderField:@"User‐Agent"];
+    [request setHTTPBody:httpBody];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setValue:@"Apple-Mail-To-Simplenote-0.1" forHTTPHeaderField:@"User-Agent"];
     simplenoteHelperFetcher = [[HTTPFetcher alloc] initWithURLRequest:request
                                                              receiver:self
                                                                action:@selector(authRequestEndedWithFetcher:)];
@@ -93,6 +98,7 @@ static char base64EncodingTable[64] = {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?auth=%@&email=%@", @"https://simple-note.appspot.com/api2/data", simplenoteHelperAuthKey, simplenoteHelperEmail, nil]]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[[noteObject JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
+    NSLog(@"%@", [request HTTPBody]);
     [request setValue:@"Apple-Mail-To-Simplenote-0.1" forHTTPHeaderField:@"User‐Agent"];
     simplenoteHelperFetcher = [[JSONFetcher alloc] initWithURLRequest:request
                                                              receiver:self
@@ -125,10 +131,10 @@ static char base64EncodingTable[64] = {
 
 +(void)authRequestEndedWithFetcher:(HTTPFetcher *)fetcher {
     [simplenoteHelperFetcher retain];
-    [self requestEndedWithFetcher:fetcher];
     if (fetcher.data) {
         simplenoteHelperAuthKey = [[NSString alloc] initWithData:fetcher.data encoding:NSUTF8StringEncoding];
     }
+    [self requestEndedWithFetcher:fetcher];
     [simplenoteHelperFetcher release];
 }
 
