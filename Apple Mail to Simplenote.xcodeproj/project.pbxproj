@@ -32,9 +32,6 @@
 		B17C4DB414030BFF00D76AD6 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4DA814030BFF00D76AD6 /* SBJsonWriter.m */; };
 		B17C4DBE14030C4900D76AD6 /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4DB714030C4900D76AD6 /* HTTPFetcher.m */; };
 		B17C4DBF14030C4900D76AD6 /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4DB914030C4900D76AD6 /* JSONFetcher.m */; };
-		B17C4DC014030C4900D76AD6 /* XMLFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4DBB14030C4900D76AD6 /* XMLFetcher.m */; };
-		B17C4DC114030C4900D76AD6 /* XPathResultNode.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4DBD14030C4900D76AD6 /* XPathResultNode.m */; };
-		B17C4DC314032E6600D76AD6 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B17C4DC214032E6600D76AD6 /* libxml2.2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,11 +96,6 @@
 		B17C4DB714030C4900D76AD6 /* HTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPFetcher.m; sourceTree = "<group>"; };
 		B17C4DB814030C4900D76AD6 /* JSONFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFetcher.h; sourceTree = "<group>"; };
 		B17C4DB914030C4900D76AD6 /* JSONFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONFetcher.m; sourceTree = "<group>"; };
-		B17C4DBA14030C4900D76AD6 /* XMLFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLFetcher.h; sourceTree = "<group>"; };
-		B17C4DBB14030C4900D76AD6 /* XMLFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLFetcher.m; sourceTree = "<group>"; };
-		B17C4DBC14030C4900D76AD6 /* XPathResultNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathResultNode.h; sourceTree = "<group>"; };
-		B17C4DBD14030C4900D76AD6 /* XPathResultNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathResultNode.m; sourceTree = "<group>"; };
-		B17C4DC214032E6600D76AD6 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../../../../usr/lib/libxml2.2.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +104,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B17C4D4C1402FE0700D76AD6 /* Cocoa.framework in Frameworks */,
-				B17C4DC314032E6600D76AD6 /* libxml2.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,7 +140,6 @@
 		B17C4D4A1402FE0700D76AD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B17C4DC214032E6600D76AD6 /* libxml2.2.dylib */,
 				B17C4D4B1402FE0700D76AD6 /* Cocoa.framework */,
 				B17C4D4D1402FE0700D76AD6 /* Other Frameworks */,
 			);
@@ -253,10 +243,6 @@
 				B17C4DB714030C4900D76AD6 /* HTTPFetcher.m */,
 				B17C4DB814030C4900D76AD6 /* JSONFetcher.h */,
 				B17C4DB914030C4900D76AD6 /* JSONFetcher.m */,
-				B17C4DBA14030C4900D76AD6 /* XMLFetcher.h */,
-				B17C4DBB14030C4900D76AD6 /* XMLFetcher.m */,
-				B17C4DBC14030C4900D76AD6 /* XPathResultNode.h */,
-				B17C4DBD14030C4900D76AD6 /* XPathResultNode.m */,
 			);
 			name = HTTPXMLJSONFetchers;
 			sourceTree = "<group>";
@@ -383,8 +369,6 @@
 				B17C4DB414030BFF00D76AD6 /* SBJsonWriter.m in Sources */,
 				B17C4DBE14030C4900D76AD6 /* HTTPFetcher.m in Sources */,
 				B17C4DBF14030C4900D76AD6 /* JSONFetcher.m in Sources */,
-				B17C4DC014030C4900D76AD6 /* XMLFetcher.m in Sources */,
-				B17C4DC114030C4900D76AD6 /* XPathResultNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,7 +467,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Apple Mail to Simplenote/Apple Mail to Simplenote-Prefix.pch";
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "Apple Mail to Simplenote/Apple Mail to Simplenote-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -499,7 +482,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Apple Mail to Simplenote/Apple Mail to Simplenote-Prefix.pch";
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "Apple Mail to Simplenote/Apple Mail to Simplenote-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -569,6 +551,7 @@
 				B17C4D7B1402FE0800D76AD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B17C4D7C1402FE0800D76AD6 /* Build configuration list for PBXNativeTarget "Apple Mail to SimplenoteTests" */ = {
 			isa = XCConfigurationList;
@@ -577,6 +560,7 @@
 				B17C4D7E1402FE0800D76AD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
