@@ -25,7 +25,8 @@ id simplenoteHelperCallbackObject;
                          content:(NSString *)content
                           pinned:(BOOL)pinned
                          deleted:(BOOL)deleted
-                            read:(BOOL)read;
+                            read:(BOOL)read
+                        markdown:(BOOL)markdown;
 +(void)requestEndedWithFetcher:(HTTPFetcher *)fetcher;
 +(void)authRequestEndedWithFetcher:(HTTPFetcher *)fetcher;
 

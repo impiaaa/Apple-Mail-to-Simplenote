@@ -13,7 +13,6 @@
     NSWindow *window;
     NSTextField *emailField;
     NSSecureTextField *passwordField;
-    NSButton *importTrashedCheck;
     NSButton *importButton;
     NSProgressIndicator *uploadIndicator;
     NSTextField *loadingTextField;
@@ -24,7 +23,6 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSTextField *emailField;
 @property (assign) IBOutlet NSSecureTextField *passwordField;
-@property (assign) IBOutlet NSButton *importTrashedCheck;
 @property (assign) IBOutlet NSButton *importButton;
 @property (assign) IBOutlet NSProgressIndicator *uploadIndicator;
 @property (assign) IBOutlet NSTextField *loadingTextField;

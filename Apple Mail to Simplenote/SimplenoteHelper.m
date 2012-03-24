@@ -98,7 +98,6 @@ static char base64EncodingTable[64] = {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?auth=%@&email=%@", @"https://simple-note.appspot.com/api2/data", simplenoteHelperAuthKey, simplenoteHelperEmail, nil]]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[[noteObject JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-    NSLog(@"%@", [request HTTPBody]);
     [request setValue:@"Apple-Mail-To-Simplenote-0.1" forHTTPHeaderField:@"User‐Agent"];
     simplenoteHelperFetcher = [[JSONFetcher alloc] initWithURLRequest:request
                                                              receiver:self
@@ -111,7 +110,8 @@ static char base64EncodingTable[64] = {
                          content:(NSString *)content
                           pinned:(BOOL)pinned
                          deleted:(BOOL)deleted
-                            read:(BOOL)read {
+                            read:(BOOL)read
+                        markdown:(BOOL)markdown {
     NSMutableArray *flagsArray = [NSMutableArray arrayWithCapacity:2];
     if (pinned) {
         [flagsArray addObject:@"pinned"];
@@ -119,7 +119,9 @@ static char base64EncodingTable[64] = {
     if (!read) {
         [flagsArray addObject:@"unread"];
     }
-    [flagsArray addObject:@"markdown"];
+    if (markdown) {
+        [flagsArray addObject:@"markdown"];
+    }
     return [self createNoteWithNoteObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                            [NSNumber numberWithDouble:[createdDate timeIntervalSince1970]], @"createdate",
                                            [NSNumber numberWithDouble:[modifiedDate timeIntervalSince1970]], @"modifydate",
@@ -130,12 +132,10 @@ static char base64EncodingTable[64] = {
 }
 
 +(void)authRequestEndedWithFetcher:(HTTPFetcher *)fetcher {
-    [simplenoteHelperFetcher retain];
     if (fetcher.data) {
         simplenoteHelperAuthKey = [[NSString alloc] initWithData:fetcher.data encoding:NSUTF8StringEncoding];
     }
     [self requestEndedWithFetcher:fetcher];
-    [simplenoteHelperFetcher release];
 }
 
 +(void)requestEndedWithFetcher:(HTTPFetcher *)fetcher {
@@ -148,10 +148,11 @@ static char base64EncodingTable[64] = {
                           fetcher.failureCode,
                           [NSHTTPURLResponse localizedStringForStatusCode:fetcher.failureCode],
                           nil];
-        [alert beginSheetModalForWindow:((Apple_Mail_to_SimplenoteAppDelegate *)[NSApplication sharedApplication]).window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+        [alert beginSheetModalForWindow:[((Apple_Mail_to_SimplenoteAppDelegate *)[[NSApplication sharedApplication] delegate]) window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
     }
-    [simplenoteHelperCallbackObject performSelector:simplenoteHelperCallback withObject:fetcher];
-    [simplenoteHelperFetcher release];
+    else {
+        [simplenoteHelperCallbackObject performSelector:simplenoteHelperCallback withObject:fetcher];
+    }
 }
 
 @end
