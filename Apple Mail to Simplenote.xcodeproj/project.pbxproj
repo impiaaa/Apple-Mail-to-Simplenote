@@ -10,7 +10,6 @@
 		B17C4D4C1402FE0700D76AD6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B17C4D4B1402FE0700D76AD6 /* Cocoa.framework */; };
 		B17C4D561402FE0700D76AD6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B17C4D541402FE0700D76AD6 /* InfoPlist.strings */; };
 		B17C4D591402FE0700D76AD6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4D581402FE0700D76AD6 /* main.m */; };
-		B17C4D5C1402FE0700D76AD6 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B17C4D5A1402FE0700D76AD6 /* Credits.rtf */; };
 		B17C4D5F1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B17C4D5E1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m */; };
 		B17C4D621402FE0800D76AD6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B17C4D601402FE0800D76AD6 /* MainMenu.xib */; };
 		B17C4D691402FE0800D76AD6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B17C4D4B1402FE0700D76AD6 /* Cocoa.framework */; };
@@ -32,6 +31,7 @@
 		B90C3A34151E689000DF956F /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = B90C3A26151E689000DF956F /* SBJsonTokeniser.m */; };
 		B90C3A35151E689000DF956F /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = B90C3A28151E689000DF956F /* SBJsonUTF8Stream.m */; };
 		B90C3A36151E689000DF956F /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B90C3A2A151E689000DF956F /* SBJsonWriter.m */; };
+		B90C3A44151E9B7600DF956F /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = B90C3A42151E9B7600DF956F /* Credits.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,6 @@
 		B17C4D551402FE0700D76AD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B17C4D571402FE0700D76AD6 /* Apple Mail to Simplenote-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Apple Mail to Simplenote-Prefix.pch"; sourceTree = "<group>"; };
 		B17C4D581402FE0700D76AD6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B17C4D5B1402FE0700D76AD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		B17C4D5D1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Apple_Mail_to_SimplenoteAppDelegate.h; sourceTree = "<group>"; };
 		B17C4D5E1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Apple_Mail_to_SimplenoteAppDelegate.m; sourceTree = "<group>"; };
 		B17C4D611402FE0800D76AD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -95,6 +94,7 @@
 		B90C3A28151E689000DF956F /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		B90C3A29151E689000DF956F /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		B90C3A2A151E689000DF956F /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		B90C3A43151E9B7600DF956F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,11 +173,11 @@
 		B17C4D521402FE0700D76AD6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B90C3A42151E9B7600DF956F /* Credits.html */,
 				B17C4D531402FE0700D76AD6 /* Apple Mail to Simplenote-Info.plist */,
 				B17C4D541402FE0700D76AD6 /* InfoPlist.strings */,
 				B17C4D571402FE0700D76AD6 /* Apple Mail to Simplenote-Prefix.pch */,
 				B17C4D581402FE0700D76AD6 /* main.m */,
-				B17C4D5A1402FE0700D76AD6 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -314,8 +314,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B17C4D561402FE0700D76AD6 /* InfoPlist.strings in Resources */,
-				B17C4D5C1402FE0700D76AD6 /* Credits.rtf in Resources */,
 				B17C4D621402FE0800D76AD6 /* MainMenu.xib in Resources */,
+				B90C3A44151E9B7600DF956F /* Credits.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,14 +398,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		B17C4D5A1402FE0700D76AD6 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B17C4D5B1402FE0700D76AD6 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
 		B17C4D601402FE0800D76AD6 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -420,6 +412,14 @@
 				B17C4D701402FE0800D76AD6 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B90C3A42151E9B7600DF956F /* Credits.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B90C3A43151E9B7600DF956F /* en */,
+			);
+			name = Credits.html;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

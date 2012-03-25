@@ -15,7 +15,12 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Please quit Mail before importing.", @"shown before the program starts")
+                                     defaultButton:NSLocalizedString(@"OK", @"")
+                                   alternateButton:nil
+                                       otherButton:nil
+                         informativeTextWithFormat:NSLocalizedString(@"This allows the message database to be updated.", @"description shown when the program starts")];
+    [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
 }
 
 - (NSSize)windowWillResize:(NSWindow *)theWindow toSize:(NSSize)proposedFrameSize {

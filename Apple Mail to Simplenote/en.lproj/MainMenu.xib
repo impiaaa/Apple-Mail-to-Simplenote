@@ -808,7 +808,6 @@
 							<string key="NSFrame">{{162, 30}, {83, 32}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="844602850">
@@ -899,10 +898,10 @@
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">orderFrontStandardAboutPanel:</string>
-						<reference key="source" ref="1021"/>
+						<reference key="source" ref="1050"/>
 						<reference key="destination" ref="238522557"/>
 					</object>
-					<int key="connectionID">142</int>
+					<int key="connectionID">567</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2117,7 +2116,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">565</int>
+			<int key="maxID">567</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2126,14 +2125,35 @@
 					<string key="className">Apple_Mail_to_SimplenoteAppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">start:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>showAbout:</string>
+							<string>start:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">start:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">start:</string>
-							<string key="candidateClassName">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>showAbout:</string>
+							<string>start:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">showAbout:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">start:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
@@ -2142,7 +2162,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>emailField</string>
 							<string>importButton</string>
-							<string>importTrashedCheck</string>
 							<string>loadingTextField</string>
 							<string>passwordField</string>
 							<string>uploadIndicator</string>
@@ -2151,7 +2170,6 @@
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSTextField</string>
-							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
 							<string>NSSecureTextField</string>
@@ -2165,7 +2183,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>emailField</string>
 							<string>importButton</string>
-							<string>importTrashedCheck</string>
 							<string>loadingTextField</string>
 							<string>passwordField</string>
 							<string>uploadIndicator</string>
@@ -2179,10 +2196,6 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">importButton</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">importTrashedCheck</string>
 								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
