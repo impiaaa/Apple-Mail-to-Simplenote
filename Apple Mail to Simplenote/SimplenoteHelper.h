@@ -13,6 +13,7 @@ NSString *simplenoteHelperAuthKey;
 NSString *simplenoteHelperEmail;
 HTTPFetcher *simplenoteHelperFetcher;
 SEL simplenoteHelperCallback;
+SEL simplenoteHelperFailCallback;
 id simplenoteHelperCallbackObject;
 
 @interface SimplenoteHelper : NSObject {

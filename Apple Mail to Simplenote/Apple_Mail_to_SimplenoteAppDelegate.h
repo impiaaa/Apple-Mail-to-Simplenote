@@ -29,6 +29,7 @@
 
 -(IBAction)start:(id)sender;
 -(void)finishedAuth:(id)sender;
+-(void)requestFailed:(id)sender;
 -(void)startNextUpload:(id)sender;
 -(void)finishedUploadingAllNotes;
 

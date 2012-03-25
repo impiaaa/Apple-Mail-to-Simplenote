@@ -35,8 +35,27 @@
     [loadingTextField setStringValue:NSLocalizedString(@"Authorizing…", @"First step of the upload process")];
     simplenoteHelperCallbackObject = self;
     simplenoteHelperCallback = @selector(finishedAuth:);
+    simplenoteHelperFailCallback = @selector(requestFailed:);
     [SimplenoteHelper authorizeWithEmail:[emailField stringValue] password:[passwordField stringValue]];
     [passwordField setEnabled:FALSE];
+}
+
+- (void)requestFailed:(id)sender {
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Error", @"")
+                                     defaultButton:NSLocalizedString(@"OK", @"")
+                                   alternateButton:nil
+                                       otherButton:nil
+                         informativeTextWithFormat:@"Error %i: %@",
+                      ((HTTPFetcher *)sender).failureCode,
+                      [NSHTTPURLResponse localizedStringForStatusCode:((HTTPFetcher *)sender).failureCode],
+                      nil];
+    [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+
+    [emailField setEnabled:TRUE];
+    [passwordField setEnabled:TRUE];
+    [importButton setEnabled:TRUE];
+    [uploadIndicator setDoubleValue:0];
+    [loadingTextField setStringValue:@""];
 }
 
 #define catchErr(err) if (err) {\

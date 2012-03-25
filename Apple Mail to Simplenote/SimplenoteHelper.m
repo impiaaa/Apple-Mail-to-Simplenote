@@ -140,15 +140,7 @@ static char base64EncodingTable[64] = {
 
 +(void)requestEndedWithFetcher:(HTTPFetcher *)fetcher {
     if (fetcher.failureCode >= 400) {
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Error", @"")
-                                         defaultButton:NSLocalizedString(@"OK", @"")
-                                       alternateButton:nil
-                                           otherButton:nil
-                             informativeTextWithFormat:@"Error %i: %@",
-                          fetcher.failureCode,
-                          [NSHTTPURLResponse localizedStringForStatusCode:fetcher.failureCode],
-                          nil];
-        [alert beginSheetModalForWindow:[((Apple_Mail_to_SimplenoteAppDelegate *)[[NSApplication sharedApplication] delegate]) window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+        [simplenoteHelperCallbackObject performSelector:simplenoteHelperFailCallback withObject:fetcher];
     }
     else {
         [simplenoteHelperCallbackObject performSelector:simplenoteHelperCallback withObject:fetcher];
