@@ -55,14 +55,14 @@
 		B17C4D571402FE0700D76AD6 /* Apple Mail to Simplenote-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Apple Mail to Simplenote-Prefix.pch"; sourceTree = "<group>"; };
 		B17C4D581402FE0700D76AD6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B17C4D5D1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Apple_Mail_to_SimplenoteAppDelegate.h; sourceTree = "<group>"; };
-		B17C4D5E1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Apple_Mail_to_SimplenoteAppDelegate.m; sourceTree = "<group>"; };
+		B17C4D5E1402FE0700D76AD6 /* Apple_Mail_to_SimplenoteAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Apple_Mail_to_SimplenoteAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B17C4D611402FE0800D76AD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		B17C4D681402FE0800D76AD6 /* Apple Mail to SimplenoteTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Apple Mail to SimplenoteTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B17C4D6E1402FE0800D76AD6 /* Apple Mail to SimplenoteTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Apple Mail to SimplenoteTests-Info.plist"; sourceTree = "<group>"; };
 		B17C4D701402FE0800D76AD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B17C4D721402FE0800D76AD6 /* Apple Mail to SimplenoteTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Apple Mail to SimplenoteTests-Prefix.pch"; sourceTree = "<group>"; };
-		B17C4D731402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Apple_Mail_to_SimplenoteTests.h; sourceTree = "<group>"; };
-		B17C4D751402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Apple_Mail_to_SimplenoteTests.m; sourceTree = "<group>"; };
+		B17C4D731402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Apple_Mail_to_SimplenoteTests.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		B17C4D751402FE0800D76AD6 /* Apple_Mail_to_SimplenoteTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Apple_Mail_to_SimplenoteTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B17C4D7F1402FE7800D76AD6 /* SimplenoteHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplenoteHelper.h; sourceTree = "<group>"; };
 		B17C4D801402FE7800D76AD6 /* SimplenoteHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplenoteHelper.m; sourceTree = "<group>"; };
 		B17C4DB614030C4900D76AD6 /* HTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPFetcher.h; sourceTree = "<group>"; };

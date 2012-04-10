@@ -11,16 +11,18 @@
 
 @implementation Apple_Mail_to_SimplenoteAppDelegate
 
-@synthesize window, emailField, passwordField, importButton, uploadIndicator, loadingTextField;
+@synthesize window, emailField, passwordField, importButton, uploadIndicator, loadingTextField, stripHTMLCheckbox;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Please quit Mail before importing.", @"shown before the program starts")
-                                     defaultButton:NSLocalizedString(@"OK", @"")
-                                   alternateButton:nil
-                                       otherButton:nil
-                         informativeTextWithFormat:NSLocalizedString(@"This allows the message database to be updated.", @"description shown when the program starts")];
-    [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    if ([[[NSWorkspace sharedWorkspace] launchedApplications] containsObject:@"com.apple.mail"]) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Please quit Mail before importing.", @"shown before the program starts")
+                                         defaultButton:NSLocalizedString(@"OK", @"")
+                                       alternateButton:nil
+                                           otherButton:nil
+                             informativeTextWithFormat:NSLocalizedString(@"This allows the message database to be updated.", @"description shown when the program starts")];
+        [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    }
 }
 
 - (NSSize)windowWillResize:(NSWindow *)theWindow toSize:(NSSize)proposedFrameSize {
@@ -31,7 +33,7 @@
 -(IBAction)start:(id)sender {
     [emailField setEnabled:FALSE];
     [importButton setEnabled:FALSE];
-    
+
     [loadingTextField setStringValue:NSLocalizedString(@"Authorizing…", @"First step of the upload process")];
     simplenoteHelperCallbackObject = self;
     simplenoteHelperCallback = @selector(finishedAuth:);
@@ -170,17 +172,17 @@ typedef enum _ContentTransferEncoding {
     [stream read:buffer maxLength:messageLength];
     NSString *rawMessage = [[NSString alloc] initWithBytes:buffer length:messageLength encoding:NSASCIIStringEncoding];
     free(buffer);
-    
+
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@" EEE, dd MMM yyyy HH:mm:ss ZZZ"];
     NSString *key;
     NSString *value;
     NSRange splitRange;
-    NSDate *createdDate;
-    NSDate *modifiedDate;
-    NSStringEncoding encoding;
+    NSDate *createdDate = nil;
+    NSDate *modifiedDate = nil;
+    NSStringEncoding encoding = NSUTF8StringEncoding;
     ContentTransferEncoding transferEncoding;
-    BOOL markdown;
+    BOOL markdown = FALSE;
     BOOL stripHTML = FALSE;
     // parse header (HTTP-like)
     for (NSString *line in [rawMessage componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
@@ -235,7 +237,7 @@ typedef enum _ContentTransferEncoding {
                     markdown = FALSE;
                 }
                 else if ([value rangeOfString:@"text/html" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-                    stripHTML = TRUE;
+                    stripHTML = [stripHTMLCheckbox intValue];
                     markdown = TRUE;
                 }
                 else if ([value rangeOfString:@"markdown" options:NSCaseInsensitiveSearch].location != NSNotFound) {
@@ -250,7 +252,7 @@ typedef enum _ContentTransferEncoding {
     }
     [dateFormatter release];
     dateFormatter = nil;
-    
+
     splitRange = [rawMessage rangeOfString:@"\n\n"];
     NSMutableData *newMessageData = [NSMutableData dataWithCapacity:messageLength/2];
     NSUInteger index;
@@ -261,32 +263,90 @@ typedef enum _ContentTransferEncoding {
                 [newMessageData appendBytes:&uc length:1];
                 break;
             case ContentTransferEncodingQuotedPrintable:
+                // http://www.opensource.apple.com/source/dovecot/dovecot-239/dovecot/src/lib-mail/quoted-printable.c
                 if (uc == '=') {
-                    NSString *hexStr = [rawMessage substringWithRange:NSMakeRange(index+1, 2)];
-                    unsigned char hex;
-                    sscanf([hexStr UTF8String], "%x", &hex);
-                    [newMessageData appendBytes:&hex length:1];
+                    if (index+1 >= [rawMessage length]) {
+                        // at end of message
+                    }
+                    else if ([rawMessage characterAtIndex:index+1] == '\n') {
+                        // =\n -> skip both
+                        index++;
+                    }
+                    else if ([rawMessage characterAtIndex:index+1] == '&') {
+                        // =& -> ;
+                        // don't know what this is doing there, but whatever
+                        uc = ';';
+                        [newMessageData appendBytes:&uc length:1];
+                        index++;
+                    }
+                   else if (([rawMessage characterAtIndex:index+1] == '\r') && ([rawMessage characterAtIndex:index+2] == '\n')) {
+                        // =\r\n -> skip all three
+                        index += 2;
+                    }
+                    else {
+                        NSString *hexStr = [rawMessage substringWithRange:NSMakeRange(index+1, 2)];
+                        unsigned char hex;
+                        sscanf([hexStr UTF8String], "%x", &hex);
+                        [newMessageData appendBytes:&hex length:1];
+                        index += 2; // skip to next sequence
+                    }
+                }
+                else if (uc == '\n') {
+                    // drop trailing whitespace
+                    int pos = index;
+                    if (pos > 0 && [rawMessage characterAtIndex:pos-1] == '\r') {
+                        pos--;
+                    }
+                    // search
+                    while (pos > 0 && [[NSCharacterSet whitespaceCharacterSet] characterIsMember:[rawMessage characterAtIndex:pos-1]]) {
+                        pos--;
+                    }
+                    [newMessageData setLength:[newMessageData length]-(index-pos)]; // truncate
                 }
                 else {
                     [newMessageData appendBytes:&uc length:1];
                 }
                 break;
-                
+
             default:
                 [newMessageData appendBytes:&uc length:1];
                 break;
         }
     }
-    NSString *newMessage = [[NSString alloc] initWithData:newMessageData encoding:encoding];
-    if (stripHTML) {
-        NSString *strippedMessage = [newMessage stringByReplacingOccurrencesOfString:@"<html>" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [newMessage length])];
-        [newMessage release];
-        strippedMessage = [strippedMessage stringByReplacingOccurrencesOfString:@"</html>" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [strippedMessage length])];
-        strippedMessage = [strippedMessage stringByReplacingOccurrencesOfString:@"<body" withString:@"<div" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [strippedMessage length])];
-        strippedMessage = [strippedMessage stringByReplacingOccurrencesOfString:@"</body>" withString:@"</div>" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [strippedMessage length])];
-        newMessage = [strippedMessage retain];
+    [rawMessage release];
+
+    NSString *newMessage;
+    if (markdown) {
+        if (!stripHTML) {
+            NSMutableString *strippedMessage = [[NSMutableString alloc] initWithData:newMessageData encoding:encoding];
+            // Convert HTML to Markdown
+            // I take advantage of the fact that Markdown allows inline HTML so that I don't actually have to do any parsing :-)
+            [strippedMessage replaceOccurrencesOfString:@"</html>" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [strippedMessage length])];
+            [strippedMessage replaceOccurrencesOfString:@"<body" withString:@"<div" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [strippedMessage length])];
+            [strippedMessage replaceOccurrencesOfString:@"</body>" withString:@"</div>" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [strippedMessage length])];
+            [strippedMessage replaceOccurrencesOfString:@"&nbsp;" withString:@" " options:NSCaseInsensitiveSearch range:NSMakeRange(0, [strippedMessage length])]; // <- that's a unicode non-breaking space
+            NSCharacterSet *markdownEscapes = [NSCharacterSet characterSetWithCharactersInString:@"\\`*_{}[]()#+-.!"];
+            for (NSUInteger i = 0; i < [strippedMessage length]; i++) {
+                if ([markdownEscapes characterIsMember:[strippedMessage characterAtIndex:i]]) {
+                    [strippedMessage insertString:@"\\" atIndex:i];
+                    i++;
+                }
+            }
+            newMessage = [strippedMessage retain];
+            [strippedMessage release];
+        }
+        else {
+            // http://www.karelia.com/cocoa_legacy/Foundation_Categories/NSString/_Flatten__a_string_.m
+			NSDictionary *encodingDict = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:encoding] forKey:NSCharacterEncodingDocumentAttribute];
+            NSAttributedString *as = [[NSAttributedString alloc] initWithHTML:newMessageData documentAttributes:&encodingDict];
+            newMessage = [[as string] retain];
+            [as release];
+        }
     }
-    
+    else {
+        newMessage = [[NSString alloc] initWithData:newMessageData encoding:encoding];
+    }
+
     [data resetBytesInRange:NSMakeRange(0, [data length])];
     [data setLength:0];
     while (TRUE) {

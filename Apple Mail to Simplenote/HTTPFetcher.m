@@ -35,7 +35,7 @@
 		urlRequest = [aURLRequest retain];
 		showAlerts = YES;
 		showAuthentication = YES;
-		
+
 		connection =
 			[[NSURLConnection alloc]
 				initWithRequest:aURLRequest
@@ -127,10 +127,10 @@
 	[connection cancel];
 	[connection release];
 	connection = nil;
-	
+
 	[challenge release];
 	challenge = nil;
-	
+
 	[receiver performSelector:action withObject:self];
 	receiver = nil;
 
@@ -163,7 +163,7 @@
 	if ([aResponse statusCode] >= 400)
 	{
 		failureCode = [aResponse statusCode];
-		
+
 		NSString *errorMessage;
 		if (failureCode == 404)
 		{
@@ -192,7 +192,7 @@
 				failureCode];
 		}
 
-#if TARGET_OS_IPHONE		
+#if TARGET_OS_IPHONE
 		if (showAlerts)
 		{
 			UIAlertView *alert =
@@ -202,15 +202,15 @@
 					delegate:nil
 					cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"HTTPFetcher", @"Standard dialog dismiss button.")
 					otherButtonTitles:nil];
-			[alert show];    
+			[alert show];
 			[alert release];
 		}
 #endif
-		
+
 		[self close];
 		return;
 	}
-	
+
 	//
 	// Handle the content-length if present by preallocating.
 	//
@@ -247,11 +247,11 @@
 {
     if ([aChallenge previousFailureCount] <= 1)
 	{
-#if TARGET_OS_IPHONE		
+#if TARGET_OS_IPHONE
 		if (showAuthentication)
 		{
 			challenge = [aChallenge retain];
-			
+
 			passwordAlert =
 				[[UIAlertView alloc]
 					initWithTitle:NSLocalizedStringFromTable(@"Server requires login", @"HTTPFetcher", @"Title used for login dialog window.")
@@ -313,9 +313,9 @@
 				UIViewAutoresizingFlexibleTopMargin |
 				UIViewAutoresizingFlexibleBottomMargin;
 			[passwordAlert addSubview:passwordField];
-			
+
 			[passwordAlert show];
-			
+
 			[[NSNotificationCenter defaultCenter]
 				addObserver:self
 				selector:@selector(willPresentAlertView:)
@@ -338,7 +338,7 @@
     }
 }
 
-#if TARGET_OS_IPHONE		
+#if TARGET_OS_IPHONE
 //
 // textFieldShouldReturn:
 //
@@ -360,7 +360,7 @@
 }
 #endif
 
-#if TARGET_OS_IPHONE		
+#if TARGET_OS_IPHONE
 //
 // alertView:clickedButtonAtIndex:
 //
@@ -380,7 +380,7 @@
 		{
 			password = @"";
 		}
-		
+
 		NSURLCredential *newCredential =
 			[NSURLCredential
 				credentialWithUser:usernameField.text
@@ -389,7 +389,7 @@
 		[[NSURLCredentialStorage sharedCredentialStorage]
 			setDefaultCredential:newCredential
 			forProtectionSpace:[challenge protectionSpace]];
-		
+
 		[[challenge sender]
 			useCredential:newCredential
 			forAuthenticationChallenge:challenge];
@@ -399,15 +399,15 @@
         [[challenge sender] cancelAuthenticationChallenge:challenge];
 		[self close];
 	}
-	
+
 	[passwordAlert release];
 	passwordAlert = nil;
-	
+
 	usernameField.delegate = nil;
 	passwordField.delegate = nil;
 	usernameField = nil;
 	passwordField = nil;
-	
+
 	[challenge release];
 	challenge = nil;
 }
@@ -424,8 +424,8 @@
 	{
 		failureCode = [error code];
 	}
-	
-#if TARGET_OS_IPHONE		
+
+#if TARGET_OS_IPHONE
 	if (showAlerts)
 	{
 		if ([error code] == -1012)
@@ -437,7 +437,7 @@
 					delegate:nil
 					cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"HTTPFetcher", @"Standard dialog dismiss button.")
 					otherButtonTitles:nil];
-			[alert show];    
+			[alert show];
 			[alert release];
 		}
 		else if ([error code] == -1004)
@@ -449,7 +449,7 @@
 					delegate:nil
 					cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"HTTPFetcher", @"Standard dialog dismiss button.")
 					otherButtonTitles:nil];
-			[alert show];    
+			[alert show];
 			[alert release];
 		}
 		else if ([error code] == -1001)
@@ -461,7 +461,7 @@
 					delegate:nil
 					cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"HTTPFetcher", @"Standard dialog dismiss button.")
 					otherButtonTitles:nil];
-			[alert show];    
+			[alert show];
 			[alert release];
 		}
 		else
@@ -475,7 +475,7 @@
 					delegate:nil
 					cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"HTTPFetcher", @"Standard dialog dismiss button.")
 					otherButtonTitles:nil];
-			[alert show];    
+			[alert show];
 			[alert release];
 		}
 	}
@@ -502,7 +502,7 @@
 - (void)dealloc
 {
 	[self cancel];
-	
+
 	[urlRequest release];
 	urlRequest = nil;
 	[responseHeaderFields release];

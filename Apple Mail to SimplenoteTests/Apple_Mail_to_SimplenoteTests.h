@@ -11,7 +11,7 @@
 
 @interface Apple_Mail_to_SimplenoteTests : SenTestCase {
 @private
-    
+
 }
 
 @end

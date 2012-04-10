@@ -41,7 +41,7 @@
 - (void)close
 {
 	[super close];
-	
+
 	[result release];
 	result = nil;
 }
@@ -55,12 +55,12 @@
 {
 	//
 	// Parse the JSON
-	// 
+	//
     NSString *resultString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	result = [resultString JSONValue];
     [resultString release];
 
-#if TARGET_OS_IPHONE		
+#if TARGET_OS_IPHONE
 	if (result == nil && showAlerts)
 	{
 		UIAlertView *alert =
@@ -70,11 +70,11 @@
 				delegate:nil
 				cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"XMLFetcher", @"Standard dialog dismiss button")
 				otherButtonTitles:nil];
-		[alert show];    
+		[alert show];
 		[alert release];
 	}
 #endif
-	
+
 	[self close];
 }
 

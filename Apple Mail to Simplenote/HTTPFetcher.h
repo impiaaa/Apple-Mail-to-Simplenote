@@ -22,7 +22,7 @@
 //
 
 @interface HTTPFetcher : NSObject
-#if TARGET_OS_IPHONE		
+#if TARGET_OS_IPHONE
 	<UITextFieldDelegate>
 #endif
 {
@@ -39,8 +39,8 @@
 	BOOL showAuthentication;
 	NSDictionary *responseHeaderFields;
 	void *context;
-	
-#if TARGET_OS_IPHONE		
+
+#if TARGET_OS_IPHONE
 	UITextField *usernameField;
 	UITextField *passwordField;
 	UIAlertView *passwordAlert;

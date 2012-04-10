@@ -18,6 +18,7 @@
     NSTextField *loadingTextField;
     NSMutableArray *messageFileList;
     NSUInteger messageFileIndex;
+    NSButton *stripHTMLCheckbox;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -26,6 +27,7 @@
 @property (assign) IBOutlet NSButton *importButton;
 @property (assign) IBOutlet NSProgressIndicator *uploadIndicator;
 @property (assign) IBOutlet NSTextField *loadingTextField;
+@property (assign) IBOutlet NSButton *stripHTMLCheckbox;
 
 -(IBAction)start:(id)sender;
 -(void)finishedAuth:(id)sender;
