@@ -15,13 +15,15 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    if ([[[NSWorkspace sharedWorkspace] launchedApplications] containsObject:@"com.apple.mail"]) {
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Please quit Mail before importing.", @"shown before the program starts")
-                                         defaultButton:NSLocalizedString(@"OK", @"")
-                                       alternateButton:nil
-                                           otherButton:nil
-                             informativeTextWithFormat:NSLocalizedString(@"This allows the message database to be updated.", @"description shown when the program starts")];
-        [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    for (NSDictionary *app in [[NSWorkspace sharedWorkspace] launchedApplications]) {
+        if ([[app valueForKey:@"NSApplicationBundleIdentifier"] isEqual:@"com.apple.mail"]) {
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Please quit Mail before importing.", @"shown before the program starts")
+                                             defaultButton:NSLocalizedString(@"OK", @"")
+                                           alternateButton:nil
+                                               otherButton:nil
+                                 informativeTextWithFormat:NSLocalizedString(@"This allows the message database to be updated.", @"description shown when the program starts")];
+            [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+        }
     }
 }
 
@@ -118,7 +120,7 @@
 
 -(void)finishedAuth:(id)sender {
     [self getNoteList];
-    [uploadIndicator setMaxValue:[messageFileList count]+1];
+    [uploadIndicator setMaxValue:[messageFileList count]];
     messageFileIndex = 0;
     simplenoteHelperCallback = @selector(startNextUpload:);
     [self startNextUpload:sender];
@@ -337,8 +339,8 @@ typedef enum _ContentTransferEncoding {
         }
         else {
             // http://www.karelia.com/cocoa_legacy/Foundation_Categories/NSString/_Flatten__a_string_.m
-			NSDictionary *encodingDict = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:encoding] forKey:NSCharacterEncodingDocumentAttribute];
-            NSAttributedString *as = [[NSAttributedString alloc] initWithHTML:newMessageData documentAttributes:&encodingDict];
+			NSDictionary *optionDict = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:encoding] forKey:NSCharacterEncodingDocumentOption];
+            NSAttributedString *as = [[NSAttributedString alloc] initWithHTML:newMessageData options:optionDict documentAttributes:nil];
             newMessage = [[as string] retain];
             [as release];
         }
@@ -359,7 +361,7 @@ typedef enum _ContentTransferEncoding {
     catchErr(err);
     NSInteger flags = [[metaDict valueForKey:@"flags"] integerValue];
     messageFileIndex++;
-    [SimplenoteHelper createNoteWithCreatedDate:createdDate modifiedDate:modifiedDate content:newMessage pinned:(flags & 0x10) deleted:FALSE read:(flags & 0x01) markdown:markdown];
+    [SimplenoteHelper createNoteWithCreatedDate:createdDate modifiedDate:modifiedDate content:newMessage pinned:(flags & 0x10) deleted:FALSE read:(flags & 0x01) markdown:(markdown && !stripHTML)];
     // deleted = ((flags & 0x02) && [importTrashedCheck integerValue])
     [newMessage release];
 }

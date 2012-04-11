@@ -87,7 +87,7 @@ static char base64EncodingTable[64] = {
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:httpBody];
     [request setHTTPShouldHandleCookies:NO];
-    [request setValue:@"Apple-Mail-To-Simplenote-0.1" forHTTPHeaderField:@"User-Agent"];
+    [request setValue:@"Apple-Mail-To-Simplenote-1.0" forHTTPHeaderField:@"User-Agent"];
     simplenoteHelperFetcher = [[HTTPFetcher alloc] initWithURLRequest:request
                                                              receiver:self
                                                                action:@selector(authRequestEndedWithFetcher:)];
@@ -97,8 +97,15 @@ static char base64EncodingTable[64] = {
 +(void)createNoteWithNoteObject:(NSDictionary *)noteObject {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?auth=%@&email=%@", @"https://simple-note.appspot.com/api2/data", simplenoteHelperAuthKey, simplenoteHelperEmail, nil]]];
     [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:[[noteObject JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding]];
-    [request setValue:@"Apple-Mail-To-Simplenote-0.1" forHTTPHeaderField:@"User‐Agent"];
+    NSString *json = (NSString *)CFURLCreateStringByAddingPercentEscapes(
+                                                                         NULL,
+                                                                         (CFStringRef)[noteObject JSONRepresentation],
+                                                                         NULL,
+                                                                         (CFStringRef)@";/?:@&=+$,",
+                                                                         kCFStringEncodingUTF8 );
+    [request setHTTPBody:[json dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setValue:@"Apple-Mail-To-Simplenote-1.0" forHTTPHeaderField:@"User‐Agent"];
+    [request setValue:@"Content-Type" forHTTPHeaderField:@"application/json"];
     simplenoteHelperFetcher = [[JSONFetcher alloc] initWithURLRequest:request
                                                              receiver:self
                                                                action:@selector(requestEndedWithFetcher:)];
