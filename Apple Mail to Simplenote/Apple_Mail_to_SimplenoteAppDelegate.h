@@ -8,6 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+typedef enum _ContentTransferEncoding {
+    ContentTransferEncoding7Bit,
+    ContentTransferEncodingQuotedPrintable,
+    ContentTransferEncodingBase64
+} ContentTransferEncoding;
+
 @interface Apple_Mail_to_SimplenoteAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate> {
 @private
     NSWindow *window;
@@ -19,6 +25,13 @@
     NSMutableArray *messageFileList;
     NSUInteger messageFileIndex;
     NSButton *stripHTMLCheckbox;
+
+    NSStringEncoding encoding;
+    ContentTransferEncoding transferEncoding;
+    BOOL markdown;
+    BOOL stripHTML;
+    NSDate *createdDate;
+    NSDate *modifiedDate;
 }
 
 @property (assign) IBOutlet NSWindow *window;

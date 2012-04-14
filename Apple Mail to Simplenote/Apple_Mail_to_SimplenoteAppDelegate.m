@@ -13,6 +13,10 @@
 
 @synthesize window, emailField, passwordField, importButton, uploadIndicator, loadingTextField, stripHTMLCheckbox;
 
+// -
+// Delegate methods
+// -
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     for (NSDictionary *app in [[NSWorkspace sharedWorkspace] launchedApplications]) {
@@ -32,6 +36,14 @@
     return proposedFrameSize;
 }
 
+- (void)windowWillClose:(NSNotification *)notification {
+    [[NSApplication sharedApplication] terminate:self];
+}
+
+// -
+// IBActions
+// -
+
 -(IBAction)start:(id)sender {
     [emailField setEnabled:FALSE];
     [importButton setEnabled:FALSE];
@@ -43,6 +55,10 @@
     [SimplenoteHelper authorizeWithEmail:[emailField stringValue] password:[passwordField stringValue]];
     [passwordField setEnabled:FALSE];
 }
+
+// -
+// Network logic
+// -
 
 - (void)requestFailed:(id)sender {
     NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Error", @"")
@@ -62,12 +78,19 @@
     [loadingTextField setStringValue:@""];
 }
 
+-(void)finishedAuth:(id)sender {
+    [self getNoteList];
+    [uploadIndicator setMaxValue:[messageFileList count]];
+    messageFileIndex = 0;
+    simplenoteHelperCallback = @selector(startNextUpload:);
+    [self startNextUpload:sender];
+}
+
 #define catchErr(err) if (err) {\
     NSAlert *alert = [NSAlert alertWithError:err];\
     [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];\
     [loadingTextField setStringValue:@""];\
     [uploadIndicator setDoubleValue:0.0];\
-    return;\
 }
 
 -(void)getNoteListLegacy {
@@ -118,28 +141,7 @@
     }
 }
 
--(void)finishedAuth:(id)sender {
-    [self getNoteList];
-    [uploadIndicator setMaxValue:[messageFileList count]];
-    messageFileIndex = 0;
-    simplenoteHelperCallback = @selector(startNextUpload:);
-    [self startNextUpload:sender];
-}
-
-typedef enum _ContentTransferEncoding {
-    ContentTransferEncoding7Bit,
-    ContentTransferEncodingQuotedPrintable,
-    ContentTransferEncodingBase64
-} ContentTransferEncoding;
-
--(void)startNextUpload:(id)sender {
-    [uploadIndicator setDoubleValue:messageFileIndex];
-    if (messageFileIndex >= [messageFileList count]) {
-        [self finishedUploadingAllNotes];
-        return;
-    }
-    [loadingTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Uploading %u of %u", @"Upload progress descriptor"), messageFileIndex+1, [messageFileList count], nil]];
-    // parse next message
+-(NSInputStream *)openCurrentEmail {
     // Special thanks to this blog post:
     // http://mike.laiosa.org/2009/03/01/emlx.html
     NSError *err = nil;
@@ -151,8 +153,12 @@ typedef enum _ContentTransferEncoding {
         [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&err];
         catchErr(err);
         // even if there was no second error, break anyway
-        return;
+        return nil;
     }
+    return stream;
+}
+
+-(NSString *)readWholeEmailFromStream:(NSInputStream *)stream {
     NSMutableData *data = [NSMutableData dataWithCapacity:1];
     char c;
     while (TRUE) {
@@ -172,20 +178,18 @@ typedef enum _ContentTransferEncoding {
     lengthStr = nil;
     uint8_t *buffer = malloc(messageLength);
     [stream read:buffer maxLength:messageLength];
-    NSString *rawMessage = [[NSString alloc] initWithBytes:buffer length:messageLength encoding:NSASCIIStringEncoding];
+    NSString *rawMessage = [[[NSString alloc] initWithBytes:buffer length:messageLength encoding:NSASCIIStringEncoding] autorelease];
     free(buffer);
+    return rawMessage;
+}
 
+-(void)parseHeaderFromRawMessage:(NSString *)rawMessage {
+    // All the stuff goes into instance variables
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@" EEE, dd MMM yyyy HH:mm:ss ZZZ"];
     NSString *key;
     NSString *value;
     NSRange splitRange;
-    NSDate *createdDate = nil;
-    NSDate *modifiedDate = nil;
-    NSStringEncoding encoding = NSUTF8StringEncoding;
-    ContentTransferEncoding transferEncoding;
-    BOOL markdown = FALSE;
-    BOOL stripHTML = FALSE;
     // parse header (HTTP-like)
     for (NSString *line in [rawMessage componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
         splitRange = [line rangeOfString:@":"];
@@ -254,9 +258,11 @@ typedef enum _ContentTransferEncoding {
     }
     [dateFormatter release];
     dateFormatter = nil;
+}
 
-    splitRange = [rawMessage rangeOfString:@"\n\n"];
-    NSMutableData *newMessageData = [NSMutableData dataWithCapacity:messageLength/2];
+-(NSMutableData *)decodeMessageDataWithRawMessage:(NSString *)rawMessage {
+    NSRange splitRange = [rawMessage rangeOfString:@"\n\n"];
+    NSMutableData *newMessageData = [NSMutableData dataWithCapacity:[rawMessage length]/2];
     NSUInteger index;
     for (index = splitRange.location+splitRange.length; index < [rawMessage length]; index++) {
         unichar uc = [rawMessage characterAtIndex:index];
@@ -281,7 +287,7 @@ typedef enum _ContentTransferEncoding {
                         [newMessageData appendBytes:&uc length:1];
                         index++;
                     }
-                   else if (([rawMessage characterAtIndex:index+1] == '\r') && ([rawMessage characterAtIndex:index+2] == '\n')) {
+                    else if (([rawMessage characterAtIndex:index+1] == '\r') && ([rawMessage characterAtIndex:index+2] == '\n')) {
                         // =\r\n -> skip all three
                         index += 2;
                     }
@@ -309,15 +315,16 @@ typedef enum _ContentTransferEncoding {
                     [newMessageData appendBytes:&uc length:1];
                 }
                 break;
-
+                
             default:
                 [newMessageData appendBytes:&uc length:1];
                 break;
         }
     }
-    [rawMessage release];
+    return newMessageData;
+}
 
-    NSString *newMessage;
+-(NSString *)getMessageStringFromData:(NSData *)newMessageData {
     if (markdown) {
         if (!stripHTML) {
             NSMutableString *strippedMessage = [[NSMutableString alloc] initWithData:newMessageData encoding:encoding];
@@ -334,36 +341,56 @@ typedef enum _ContentTransferEncoding {
                     i++;
                 }
             }
-            newMessage = [strippedMessage retain];
-            [strippedMessage release];
+            return [strippedMessage autorelease];
         }
         else {
             // http://www.karelia.com/cocoa_legacy/Foundation_Categories/NSString/_Flatten__a_string_.m
 			NSDictionary *optionDict = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:encoding] forKey:NSCharacterEncodingDocumentOption];
-            NSAttributedString *as = [[NSAttributedString alloc] initWithHTML:newMessageData options:optionDict documentAttributes:nil];
-            newMessage = [[as string] retain];
-            [as release];
+            NSAttributedString *as = [[[NSAttributedString alloc] initWithHTML:newMessageData options:optionDict documentAttributes:nil] autorelease];
+            return [as string];
         }
     }
     else {
-        newMessage = [[NSString alloc] initWithData:newMessageData encoding:encoding];
+        return [[[NSString alloc] initWithData:newMessageData encoding:encoding] autorelease];
     }
+}
 
-    [data resetBytesInRange:NSMakeRange(0, [data length])];
-    [data setLength:0];
+-(void)startNextUpload:(id)sender {
+    // parse next message
+
+    encoding = NSUTF8StringEncoding;
+    transferEncoding = ContentTransferEncoding7Bit;
+    markdown = FALSE;
+    stripHTML = FALSE;
+
+    [uploadIndicator setDoubleValue:messageFileIndex];
+    if (messageFileIndex >= [messageFileList count]) {
+        [self finishedUploadingAllNotes];
+        return;
+    }
+    [loadingTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Uploading %u of %u", @"Upload progress descriptor"), messageFileIndex+1, [messageFileList count], nil]];
+
+    NSInputStream *stream = [self openCurrentEmail];
+    NSString *rawMessage = [self readWholeEmailFromStream:stream];
+    [self parseHeaderFromRawMessage:rawMessage];
+    NSMutableData *newMessageData = [self decodeMessageDataWithRawMessage:rawMessage];
+    NSString *newMessage = [self getMessageStringFromData:newMessageData];
+
+    NSMutableData *data = [NSMutableData dataWithCapacity:1];
+    char c;
     while (TRUE) {
         if ([stream read:(uint8_t *)&c maxLength:1] <= 0) {
             break;
         }
         [data appendBytes:&c length:1];
     }
+    NSError *err = nil;
     NSDictionary *metaDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:NULL error:&err];
     catchErr(err);
     NSInteger flags = [[metaDict valueForKey:@"flags"] integerValue];
     messageFileIndex++;
     [SimplenoteHelper createNoteWithCreatedDate:createdDate modifiedDate:modifiedDate content:newMessage pinned:(flags & 0x10) deleted:FALSE read:(flags & 0x01) markdown:(markdown && !stripHTML)];
     // deleted = ((flags & 0x02) && [importTrashedCheck integerValue])
-    [newMessage release];
 }
 
 -(void)finishedUploadingAllNotes {
@@ -372,10 +399,6 @@ typedef enum _ContentTransferEncoding {
     [importButton setEnabled:TRUE];
     [uploadIndicator setDoubleValue:[uploadIndicator maxValue]];
     [loadingTextField setStringValue:NSLocalizedString(@"Finished!", @"Import complete")];
-}
-
-- (void)windowWillClose:(NSNotification *)notification {
-    [[NSApplication sharedApplication] terminate:self];
 }
 
 @end

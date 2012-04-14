@@ -104,6 +104,7 @@ static char base64EncodingTable[64] = {
                                                                          (CFStringRef)@";/?:@&=+$,",
                                                                          kCFStringEncodingUTF8 );
     [request setHTTPBody:[json dataUsingEncoding:NSUTF8StringEncoding]];
+    [json release];
     [request setValue:@"Apple-Mail-To-Simplenote-1.0" forHTTPHeaderField:@"User‐Agent"];
     [request setValue:@"Content-Type" forHTTPHeaderField:@"application/json"];
     simplenoteHelperFetcher = [[JSONFetcher alloc] initWithURLRequest:request
