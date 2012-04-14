@@ -1,0 +1,4 @@
+
+[submodule "json-framework"]
+	path = json-framework
+	url = https://github.com/gcbrueckmann/json-framework.git
